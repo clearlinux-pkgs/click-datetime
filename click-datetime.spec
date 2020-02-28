@@ -4,10 +4,10 @@
 #
 Name     : click-datetime
 Version  : 0.2.0
-Release  : 5
+Release  : 6
 URL      : https://github.com/click-contrib/click-datetime/archive/0.2.0.tar.gz
 Source0  : https://github.com/click-contrib/click-datetime/archive/0.2.0.tar.gz
-Summary  : No detailed summary available
+Summary  : Datetime type support for click.
 Group    : Development/Tools
 License  : Python-2.0
 Requires: click-datetime-python = %{version}-%{release}
@@ -16,11 +16,23 @@ Requires: click
 Requires: wheel
 BuildRequires : buildreq-distutils3
 BuildRequires : click
+BuildRequires : wheel
 
 %description
 # Click Datetime (in progress)
+
 Click support for Python's Datetime types to allow developers to easy parse date strings as
 parameters to Python commandline tools.
+
+**Note :** This package is VERY new and is still under development.
+
+## Use Case
+
+https://github.com/pallets/click/issues/603
+
+## Authors
+
+- Dawson Reid (@ddaws)
 
 %package python
 Summary: python components for the click-datetime package.
@@ -35,6 +47,7 @@ python components for the click-datetime package.
 Summary: python3 components for the click-datetime package.
 Group: Default
 Requires: python3-core
+Provides: pypi(click-datetime)
 
 %description python3
 python3 components for the click-datetime package.
@@ -42,17 +55,25 @@ python3 components for the click-datetime package.
 
 %prep
 %setup -q -n click-datetime-0.2.0
+cd %{_builddir}/click-datetime-0.2.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1546121806
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1582907598
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
