@@ -4,7 +4,7 @@
 #
 Name     : click-datetime
 Version  : 0.2.0
-Release  : 13
+Release  : 14
 URL      : https://github.com/click-contrib/click-datetime/archive/0.2.0.tar.gz
 Source0  : https://github.com/click-contrib/click-datetime/archive/0.2.0.tar.gz
 Summary  : Datetime type support for click.
